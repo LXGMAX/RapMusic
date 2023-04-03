@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="5"
+        android:rowCount="5"
+        android:gravity="center">
+        <TextView
+            android:layout_columnSpan="5"
+            android:layout_rowSpan="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_text"
+            android:id="@+id/screen_display"
+            android:layout_gravity="center"
+            android:textSize="32px" />
+        <TextView
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_column="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电脑IP地址:"
+            android:id="@+id/addr_lable" />
+        <EditText
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="1"
+            android:layout_column="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addr_text"
+            android:inputType="none|textUri"
+            android:layout_gravity="fill_horizontal" />
+        <Button
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_column="1"
+            android:layout_row="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_up"
+            android:id="@+id/up_button" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_down"
+            android:id="@+id/down_button"
+            android:textStyle="normal" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_prev"
+            android:id="@+id/prev_button"
+            android:textStyle="normal" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_next"
+            android:id="@+id/next_button"
+            android:textStyle="normal" />
+        <Button
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_column="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_pause"
+            android:id="@+id/pause_button"
+            android:textStyle="normal" />
+        <Button
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_column="4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_like"
+            android:id="@+id/like_button"
+            android:textStyle="normal" />
+        <Button
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_column="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_lyric"
+            android:id="@+id/lyric_button"
+            android:textStyle="normal" />
+        <Button
+            android:layout_columnSpan="1"
+            android:layout_rowSpan="1"
+            android:layout_column="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_mute"
+            android:id="@+id/mute_button"
+            android:textStyle="normal" />
+        
+    </GridLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
