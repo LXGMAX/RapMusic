@@ -4646,6 +4646,9 @@ namespace RapMusic
 			// aapt resource value: 0x7F0E0039
 			public const int status_bar_notification_info_overflow = 2131623993;
 			
+			// aapt resource value: 0x7F0E003A
+			public const int tip = 2131623994;
+			
 			static String()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

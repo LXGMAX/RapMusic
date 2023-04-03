@@ -11,4 +11,5 @@
 	<string name="button_mute">静音</string>
 	<string name="button_lyric">歌词栏</string>
 	<string name="slider_volume">音量</string>
+	<string name="tip">电脑IP地址:</string>
 </resources>

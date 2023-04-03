@@ -2,11 +2,7 @@
 using Android.App;
 using Android.OS;
 using Android.Runtime;
-using Android.Views;
-using AndroidX.AppCompat.Widget;
 using AndroidX.AppCompat.App;
-using Google.Android.Material.FloatingActionButton;
-using Google.Android.Material.Snackbar;
 using Android.Util;
 using Android.Widget;
 using System.IO;
@@ -54,10 +50,24 @@ namespace RapMusic
             }
             catch (Exception ex)
             {
-                Toast.MakeText(Application.Context, "未设置地址", ToastLength.Short).Show();
+                Toast.MakeText(Application.Context, ex.ToString(), ToastLength.Short).Show();
             }
 
             return respStr;
+        }
+
+        private void OnTextEditChange()
+        {
+            string SingJumpAddr = addrText.Text;
+            string saveFileName = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "SingJumpAddr");
+            File.WriteAllText(saveFileName, SingJumpAddr);
+        }
+
+        private void loadAddrSetting()
+        {
+            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "SingJumpAddr");
+            string addr = File.ReadAllText(path);
+            addrText.Text = addr;
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -72,6 +82,7 @@ namespace RapMusic
             pauseButton.Click += OnPlayButton_Click;
 
             TextDisplay = FindViewById<TextView>(Resource.Id.screen_display);
+
             Button upButton = FindViewById<Button>(Resource.Id.up_button);
             upButton.Click += OnUpButton_Click;
 
@@ -112,6 +123,7 @@ namespace RapMusic
             Log.Debug("btn", addrText.Text, resp);
 
             RunOnUiThread(() => { TextDisplay.Text = "Rap Music!"; });
+            OnTextEditChange();
         }
 
         public void OnNextButton_Click(Object sender, System.EventArgs e)

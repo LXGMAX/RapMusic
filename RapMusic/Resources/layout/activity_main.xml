@@ -27,7 +27,7 @@
             android:layout_column="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="电脑IP地址:"
+            android:text="@string/tip"
             android:id="@+id/addr_lable" />
         <EditText
             android:layout_columnSpan="2"
