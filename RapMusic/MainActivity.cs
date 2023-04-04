@@ -7,6 +7,7 @@ using Android.Util;
 using Android.Widget;
 using System.IO;
 using System.Net;
+using Android.Views;
 
 namespace RapMusic
 {
@@ -30,8 +31,9 @@ namespace RapMusic
 
         private static string httpPlayControl(string addr, string path)
         {
-            if (addr == "" || path == "") return "";
-            string SingJumpUrl = "http://" + addr + ":" + "18890" + path;
+            IPAddress ip;
+            if (addr == "" || path == "" || !IPAddress.TryParse(addr, out ip)) return "";
+            string SingJumpUrl = "http://" + ip + ":" + "18890" + path;
             string respStr = "";
             Log.Debug("url", SingJumpUrl);
             try
@@ -40,6 +42,7 @@ namespace RapMusic
                 request.Method = "GET";
                 request.ContentType = "application/json";
                 request.UserAgent = null;
+                request.Timeout = 300;
 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 Stream respStream = response.GetResponseStream();
@@ -56,18 +59,20 @@ namespace RapMusic
             return respStr;
         }
 
-        private void OnTextEditChange()
+        private void OnTextEditChange(object sender, View.KeyEventArgs e)
         {
-            string SingJumpAddr = addrText.Text;
-            string saveFileName = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "SingJumpAddr");
-            File.WriteAllText(saveFileName, SingJumpAddr);
+            string addr = addrText.Text;
+            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SingJumpAddr");
+            File.WriteAllText(path, addr);
+            Log.Debug("file", path + " addr:" + addr);
         }
 
         private void loadAddrSetting()
         {
-            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "SingJumpAddr");
+            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SingJumpAddr");
             string addr = File.ReadAllText(path);
             addrText.Text = addr;
+            Log.Debug("read file", path + " addr:" + addr);
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -77,6 +82,8 @@ namespace RapMusic
             SetContentView(Resource.Layout.activity_main);
 
             addrText = FindViewById<EditText>(Resource.Id.addr_text);
+            addrText.KeyPress += OnTextEditChange;
+            loadAddrSetting();
 
             Button pauseButton = FindViewById<Button>(Resource.Id.pause_button);
             pauseButton.Click += OnPlayButton_Click;
@@ -123,7 +130,6 @@ namespace RapMusic
             Log.Debug("btn", addrText.Text, resp);
 
             RunOnUiThread(() => { TextDisplay.Text = "Rap Music!"; });
-            OnTextEditChange();
         }
 
         public void OnNextButton_Click(Object sender, System.EventArgs e)
