@@ -39,6 +39,11 @@
             android:inputType="none|textUri"
             android:layout_gravity="fill_horizontal" />
         <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_save"
+            android:id="@+id/save_button" />
+        <Button
             android:layout_columnSpan="1"
             android:layout_rowSpan="1"
             android:layout_column="1"
@@ -101,7 +106,7 @@
             android:text="@string/button_mute"
             android:id="@+id/mute_button"
             android:textStyle="normal" />
-        
+
     </GridLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,7 +7,8 @@ using Android.Util;
 using Android.Widget;
 using System.IO;
 using System.Net;
-using Android.Views;
+using Android.Views.InputMethods;
+using Android.Content;
 
 namespace RapMusic
 {
@@ -16,6 +17,8 @@ namespace RapMusic
     {
         public TextView TextDisplay { get; private set; }
         public EditText addrText { get; private set; }
+
+        private const string conf= "SingJumpAddr";
 
         private string[] path = {
             "/play/pause",
@@ -59,20 +62,19 @@ namespace RapMusic
             return respStr;
         }
 
-        private void OnTextEditChange(object sender, View.KeyEventArgs e)
-        {
-            string addr = addrText.Text;
-            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SingJumpAddr");
-            File.WriteAllText(path, addr);
-            Log.Debug("file", path + " addr:" + addr);
-        }
-
         private void loadAddrSetting()
         {
-            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "SingJumpAddr");
-            string addr = File.ReadAllText(path);
-            addrText.Text = addr;
-            Log.Debug("read file", path + " addr:" + addr);
+            try
+            {
+                string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), conf);
+                string addr = File.ReadAllText(path);
+                addrText.Text = addr;
+                Log.Debug("read file", path + " addr:" + addr);
+            }
+            catch
+            {
+                Toast.MakeText(Application.Context, "输入电脑IP", ToastLength.Short).Show();
+            }
         }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -82,7 +84,7 @@ namespace RapMusic
             SetContentView(Resource.Layout.activity_main);
 
             addrText = FindViewById<EditText>(Resource.Id.addr_text);
-            addrText.KeyPress += OnTextEditChange;
+
             loadAddrSetting();
 
             Button pauseButton = FindViewById<Button>(Resource.Id.pause_button);
@@ -110,6 +112,9 @@ namespace RapMusic
 
             Button likeButton = FindViewById<Button>(Resource.Id.like_button);
             likeButton.Click += OnLikeButton_Click;
+
+            Button saveButton = FindViewById<Button>(Resource.Id.save_button);
+            saveButton.Click += OnSaveButton_Click;
         }
 
         public void OnUpButton_Click(object sender, System.EventArgs e)
@@ -160,6 +165,25 @@ namespace RapMusic
         {
             string resp = httpPlayControl(addrText.Text, path[7]);
             Log.Debug("btn", addrText.Text, resp);
+        }
+
+        private void OnSaveButton_Click(object sender, System.EventArgs e)
+        {
+            string addr = addrText.Text;
+            string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), conf);
+            File.WriteAllText(path, addr);
+
+            addrText.Focusable = false;
+            addrText.FocusableInTouchMode = true;
+
+            InputMethodManager imm = (InputMethodManager)this.GetSystemService(Context.InputMethodService);
+            if (imm != null)
+            {
+                imm.HideSoftInputFromWindow(this.Window.DecorView.WindowToken, 0);
+            }
+
+            Toast.MakeText(Application.Context, "已保存", ToastLength.Short).Show();
+            Log.Debug("file", path + " addr:" + addr);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
