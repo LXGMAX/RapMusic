@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">rapmusic</string>
+    <string name="ip_label">电脑IP地址</string>
+    <string name="button_save">保存</string>
+</resources>
