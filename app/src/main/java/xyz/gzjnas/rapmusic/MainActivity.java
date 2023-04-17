@@ -2,28 +2,21 @@ package xyz.gzjnas.rapmusic;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import androidx.appcompat.app.AppCompatActivity;
 
-import kotlin.jvm.internal.PropertyReference0Impl;
-import xyz.gzjnas.rapmusic.HttpUtils;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private enum ActionUrl {
@@ -69,44 +62,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ImageButton playButton = findViewById(R.id.play);
-        playButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.PAUSE.getPath());
-        });
+        playButton.setOnClickListener(v -> sendHttpGet(ActionUrl.PAUSE.getPath()));
 
         ImageButton nextButton = findViewById(R.id.next);
-        nextButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.NEXT.getPath());
-        });
+        nextButton.setOnClickListener(v -> sendHttpGet(ActionUrl.NEXT.getPath()));
 
         ImageButton prevButton = findViewById(R.id.previous);
-        prevButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.PREVIOUS.getPath());
-        });
+        prevButton.setOnClickListener(v -> sendHttpGet(ActionUrl.PREVIOUS.getPath()));
 
         ImageButton likeButton = findViewById(R.id.like);
-        likeButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.LIKE.getPath());
-        });
+        likeButton.setOnClickListener(v -> sendHttpGet(ActionUrl.LIKE.getPath()));
 
         ImageButton lyricButton = findViewById(R.id.lyric);
-        lyricButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.LYRIC.getPath());
-        });
+        lyricButton.setOnClickListener(v -> sendHttpGet(ActionUrl.LYRIC.getPath()));
 
         ImageButton volumeUpButton = findViewById(R.id.volumeFull);
-        volumeUpButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.VOLUMEUP.getPath());
-        });
+        volumeUpButton.setOnClickListener(v -> sendHttpGet(ActionUrl.VOLUMEUP.getPath()));
 
         ImageButton volumeDownButton = findViewById(R.id.volumeDown);
-        volumeDownButton.setOnClickListener(v-> {
-            sendHttpGet(ActionUrl.VOLUMEDOWN.getPath());
-        });
+        volumeDownButton.setOnClickListener(v-> sendHttpGet(ActionUrl.VOLUMEDOWN.getPath()));
 
         ImageButton muteButton = findViewById(R.id.mute);
-        muteButton.setOnClickListener(v -> {
-            sendHttpGet(ActionUrl.MUTE.getPath());
-        });
+        muteButton.setOnClickListener(v -> sendHttpGet(ActionUrl.MUTE.getPath()));
 
         SeekBar soundBar = findViewById(R.id.soundBar);
         soundBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -129,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendHttpGet(String path) {
         String remote = getRemoteIp();
-        if (remote == "") {
+        if (Objects.equals(remote, "")) {
             Toast.makeText(MainActivity.this, "请设置IP", Toast.LENGTH_LONG).show();
             return;
         }
@@ -143,12 +120,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // todo check ip address
         Log.d(TAG, "saveRemoteIp: " + ip);
-        if (Patterns.IP_ADDRESS.matcher(ip).matches() == true) {
+        if (Patterns.IP_ADDRESS.matcher(ip).matches()) {
             editor.putString("ip", ip);
             editor.apply();
         } else {
             Toast.makeText(MainActivity.this, "IP不正确", Toast.LENGTH_LONG).show();
-            return;
         }
     }
 
