@@ -27,10 +27,10 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/previous"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.784"
+        app:layout_constraintHorizontal_bias="0.706"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.301"
+        app:layout_constraintVertical_bias="0.666"
         app:srcCompat="@drawable/sound" />
 
     <ImageButton
@@ -57,11 +57,26 @@
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/previous"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.784"
+        app:layout_constraintHorizontal_bias="0.097"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.745"
+        app:layout_constraintVertical_bias="0.662"
         app:srcCompat="@drawable/soundoff" />
+
+    <ImageButton
+        android:id="@+id/volumeDown"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="sound down"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/previous"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.664"
+        app:srcCompat="@drawable/soundsub" />
 
     <ImageButton
         android:id="@+id/play"
@@ -122,32 +137,17 @@
         app:layout_constraintVertical_bias="0.884"
         app:srcCompat="@drawable/heart" />
 
-    <SeekBar
-        android:id="@+id/soundBar"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="50"
-        android:rotation="270"
-        android:scrollbarSize="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/lyric"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.637" />
-
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:text="@string/button_save"
         android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/volumeFull"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintVertical_bias="0.237" />
 
     <TextView
         android:id="@+id/ip_text"
@@ -160,5 +160,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.12" />
+
+    <SeekBar
+        android:id="@+id/soundBar"
+        android:layout_width="193dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toTopOf="@+id/lyric"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/volumeFull" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

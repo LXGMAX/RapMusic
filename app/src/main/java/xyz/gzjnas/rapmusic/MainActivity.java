@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -14,11 +15,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import kotlin.jvm.internal.PropertyReference0Impl;
 import xyz.gzjnas.rapmusic.HttpUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,37 +35,42 @@ public class MainActivity extends AppCompatActivity {
             "/play/like",
             "/play/lyric",
             "/play/mute",
-            "/sys/getvol"
+            "/sys/getvol",
+            "/sys/setvol"
     };
+    private enum ActionUrl {
+        PAUSE("/play/pause"),
+        NEXT("/play/next"),
+        PREVIOUS("/play/previous"),
+        VOLUMEUP("/play/volup"),
+        VOLUMEDOWN("/play/voldown"),
+        LIKE("/play/like"),
+        LYRIC("/play/lyric"),
+        MUTE("/play/mute"),
+        GETVOL("/sys/getvol"),
+        SETVOL("/sys/setvol");
 
-    private enum PathIndex {
-        PAUSE,
-        NEXT,
-        PREVIOUS,
-        VOLUMEUP,
-        VOLUMEDOWN,
-        LIKE,
-        LYRIC,
-        MUTE,
-        GETVOL
-    };
+        private final String path;
+
+        ActionUrl(String path) {
+            this.path = path;
+        }
+
+        public String getPath() {
+            return this.path;
+        }
+    }
 
     private EditText ipEdit;
 
-    /*ImageButton nextButton = (ImageButton) findViewById(R.id.next);
-    ImageButton previousButton = (ImageButton) findViewById(R.id.previous);
-    ImageButton likeButton = (ImageButton) findViewById(R.id.like);
-    ImageButton lyricButton = (ImageButton) findViewById(R.id.lyric);
-    ImageButton volFullButton = (ImageButton) findViewById(R.id.volumeFull);
-    ImageButton muteButton = (ImageButton) findViewById(R.id.mute);*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ipEdit = (EditText) findViewById(R.id.ipEdit);
+        ipEdit = findViewById(R.id.ipEdit);
         loadRemoteIp();
-        Button saveButton = (Button) findViewById(R.id.saveButton);
+        Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> {
             saveRemoteIp(ipEdit.getText().toString());
             ipEdit.setEnabled(false);
@@ -71,45 +80,73 @@ public class MainActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(ipEdit.getWindowToken(),0);
         });
 
-        ImageButton playButton = (ImageButton) findViewById(R.id.play);
+        ImageButton playButton = findViewById(R.id.play);
         playButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.PAUSE.ordinal());
+            sendHttpGet(ActionUrl.PAUSE.getPath());
         });
 
-        ImageButton nextButton = (ImageButton) findViewById(R.id.next);
+        ImageButton nextButton = findViewById(R.id.next);
         nextButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.NEXT.ordinal());
+            sendHttpGet(ActionUrl.NEXT.getPath());
         });
 
-        ImageButton prevButton = (ImageButton) findViewById(R.id.previous);
+        ImageButton prevButton = findViewById(R.id.previous);
         prevButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.PREVIOUS.ordinal());
+            sendHttpGet(ActionUrl.PREVIOUS.getPath());
         });
 
-        ImageButton likeButton = (ImageButton) findViewById(R.id.like);
+        ImageButton likeButton = findViewById(R.id.like);
         likeButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.LIKE.ordinal());
+            sendHttpGet(ActionUrl.LIKE.getPath());
         });
 
-        ImageButton lyricButton = (ImageButton) findViewById(R.id.lyric);
+        ImageButton lyricButton = findViewById(R.id.lyric);
         lyricButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.LYRIC.ordinal());
+            sendHttpGet(ActionUrl.LYRIC.getPath());
         });
 
-        ImageButton volumeUpButton = (ImageButton) findViewById(R.id.volumeFull);
+        ImageButton volumeUpButton = findViewById(R.id.volumeFull);
         volumeUpButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.VOLUMEUP.ordinal());
+            sendHttpGet(ActionUrl.VOLUMEUP.getPath());
         });
 
-        ImageButton muteButton = (ImageButton) findViewById(R.id.mute);
+        ImageButton volumeDownButton = findViewById(R.id.volumeDown);
+        volumeDownButton.setOnClickListener(v-> {
+            sendHttpGet(ActionUrl.VOLUMEDOWN.getPath());
+        });
+
+        ImageButton muteButton = findViewById(R.id.mute);
         muteButton.setOnClickListener(v -> {
-            sendHttpGet(PathIndex.MUTE.ordinal());
+            sendHttpGet(ActionUrl.MUTE.getPath());
+        });
+
+        SeekBar soundBar = findViewById(R.id.soundBar);
+        soundBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Log.d(TAG, "onProgressChanged: " + progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
         });
     }
 
-    private void sendHttpGet(int index) {
+    private void sendHttpGet(String path) {
         String remote = getRemoteIp();
-        String URL = "http://" + remote + ":18890/" + path[index];
+        if (remote == "") {
+            Toast.makeText(MainActivity.this, "请设置IP", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String URL = "http://" + remote + ":18890/" + path;
         new HttpUtils().execute(URL);
     }
 
@@ -129,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String getRemoteIp() {
         SharedPreferences sharedPref = getSharedPreferences("remote_ip", Context.MODE_PRIVATE);
-        // todo check ip
         return sharedPref.getString("ip", "");
     }
 

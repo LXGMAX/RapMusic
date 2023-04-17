@@ -9,10 +9,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class HttpUtils extends AsyncTask<String, Void, String> {
-    private static final String TAG = "HttpGet";
+    private static final String TAG = "HttpUtils";
 
     @Override
-
     protected String doInBackground(String... urls) {
         String url = urls[0];
         OkHttpClient client = new OkHttpClient();
