@@ -4,9 +4,9 @@
 
 1. 下载服务端和客户端
 
-服务端: [SingJump.exe](https://github.com/LXGMAX/SingJump/releases/download/v0.1/SingJump.exe)
+服务端: [SingJump.exe](https://github.com/LXGMAX/SingJump/releases/download/v0.2/SingJump.exe)
 
-客户端: [RapMusic](https://github.com/LXGMAX/RapMusic/releases/download/v0.1/RapMusic-armv8.apk)
+客户端: [RapMusic](https://github.com/LXGMAX/RapMusic/releases/download/v0.2/RapMusic.apk)
 
 2. 双击`SingJump.exe`运行，得到本机IP地址
 
