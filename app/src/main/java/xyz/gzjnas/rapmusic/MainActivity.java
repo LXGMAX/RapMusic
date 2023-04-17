@@ -26,18 +26,6 @@ import kotlin.jvm.internal.PropertyReference0Impl;
 import xyz.gzjnas.rapmusic.HttpUtils;
 
 public class MainActivity extends AppCompatActivity {
-    private final String[] path = {
-            "/play/pause",
-            "/play/next",
-            "/play/previous",
-            "/play/volup",
-            "/play/voldown",
-            "/play/like",
-            "/play/lyric",
-            "/play/mute",
-            "/sys/getvol",
-            "/sys/setvol"
-    };
     private enum ActionUrl {
         PAUSE("/play/pause"),
         NEXT("/play/next"),
